@@ -68,20 +68,17 @@ public class MonkeySim {
     public static String stringifyResults(int c, Monkey m, Monkey m2) {
     	String toReturn = new String("");
     	try {
-    	    for (int j=0; j < HEADER; j++) {
-    		    toReturn += "@";
-    	    }
-    	    toReturn += new String("//Round ");
-    	    toReturn += new String("" + c);
-    	    toReturn += new String(": Threw banana from Monkey (#");
-    	    toReturn += new String(m.getMonkeyNum() + " / ID " + m.getId());
-    	    toReturn += new String(") to Monkey (#");
-    	    toReturn += new String(m2.getMonkeyNum() + " / ID " + m2.getId() + ")");
+    	    toReturn += "//Round ";
+    	    toReturn += "" + c;
+    	    toReturn += ": Threw banana from Monkey (#";
+    	    toReturn += m.getMonkeyNum() + " / ID " + m.getId();
+    	    toReturn += ") to Monkey (#";
+    	    toReturn += m2.getMonkeyNum() + " / ID " + m2.getId() + ")";
     	} catch (NoIdException noidex) {
     	    System.out.println("INVALID MONKEY!");
     	    System.exit(2);
     	}
-    	return toReturn.substring(HEADER);
+    	return toReturn;
     }
 
     /**
