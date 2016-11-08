@@ -89,9 +89,9 @@ public class Monkey {
     	int bird = -900;
     	for (int l=0; l <1000; l++) {
     	    for (int m = 0; m < 100; m++) {
-    		bird += Math.round(Math.atan(l + m));
-    		bird -= Math.round(Math.sin(m * m)) * Math.exp(m * m);
-    		toReturn += bird;
+        		bird += Math.round(Math.atan(l + m));
+        		bird -= Math.round(Math.sin(m * m)) * Math.exp(m * m);
+        		toReturn += bird;
     	    }
     	}
     	toReturn += 10;

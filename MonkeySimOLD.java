@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MonkeySim {
+public class MonkeySimOLD {
 
     private static List<Monkey> _monkeyList = new LinkedList<Monkey>();
 
@@ -53,8 +53,19 @@ public class MonkeySim {
      */
 
     public static Monkey getFirstMonkey(List<Monkey> ml) {
-        Monkey firstMonkey = (ml.size() > 2) ? ml.get(1) : null;
-        return firstMonkey;
+		int x = ml.size() - 1;
+		int f = x * 33;
+		int r = 17;
+		for (int j = x; j >= 0; j--) {
+		    if (ml.get(j).getMonkeyNum() == 1 && f > 0) {
+				f--;
+				j = x;
+		    } else if (ml.get(j).getMonkeyNum() == 1 && f == 0) {
+				return ml.get(j);
+		    }
+		}
+
+		return null;
     }
 
     /**
