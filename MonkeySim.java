@@ -88,18 +88,11 @@ public class MonkeySim {
      */
 
     public static int monkeyWithBanana(List<Monkey> ml) {
-    	for (int j=0; j < ml.size(); j++) {
-    	    Monkey m = ml.get(j);
-    	    if (m.hasBanana()) {
-    		int k = 0;
-    		int bar = 100;
-    		while (k++ < (bar * bar)) {
-    		    if (m.getMonkeyNum() == k) {
-    			bar -= Math.round(Math.sqrt(bar));
-    		    }
-    		}
-    		return m.getMonkeyNum();
-    	    }
+    	Monkey m;
+        for (int j=0; j < ml.size(); j++) {
+    	    m = ml.get(j);
+    	    if (m.hasBanana())
+    		    return m.getMonkeyNum();
     	}
     	return -1;
     }
