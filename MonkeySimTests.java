@@ -77,43 +77,4 @@ public class MonkeySimTests{
 			//	because a NullPointerException was successfully thrown.
 		}
 	}
-
-	//When "32" is passed as a command-line argument
-	//	to the MonkeySim program, a list of 32 monkeys
-	//	is created, the runSimulation() method is called
-	//	and when finished, should return the log of the monkeys
-	//	since they're a power of 2.
-	//In this case, since 32 is passed in, log32 is 5, which is
-	//	the number of rounds taken to complete the simulation.
-	//Pin test for stringifyResults()
-	@Test
-	public void PassingIn32MonkeysWhichIsAPowerOfTwoToMonkeySimShouldReturnFiveRoundsWhichIsTheLogBaseTwoOf32(){
-		MonkeyWatcher mw = new MonkeyWatcher();
-		List<Monkey> monkeys = new LinkedList<Monkey>();
-		for(int i = 0; i < 33; i++){ //33 because the equation is "s+1" in the original simulation
-			monkeys.add(new Monkey());
-		}
-		int numRounds = MonkeySim.runSimulation(monkeys, mw);
-
-		assertEquals(5, numRounds); //Number of rounds should be 5
-	}
-
-	//When "17" is passed as a command-line argument
-	//	to the MonkeySim program, a list of 17 monkeys
-	//	is created, the runSimulation() method is called
-	//	and when finished, should return 12 rounds because
-	//	17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 -> 5 -> 16
-	//	-> 8 -> 4 -> 2 -> 1
-	//Pin test for stringifyResults()
-	@Test
-	public void PassingIn17MonkeysToMonkeySimShouldReturnTwelveRounds(){
-		MonkeyWatcher mw = new MonkeyWatcher();
-		List<Monkey> monkeys = new LinkedList<Monkey>();
-		for(int i = 0; i < 17; i++){
-			monkeys.add(new Monkey());
-		}
-		int numRounds = MonkeySim.runSimulation(monkeys, mw);
-
-		assertEquals(12, numRounds); //Number of rounds should be 12
-	}
 }
