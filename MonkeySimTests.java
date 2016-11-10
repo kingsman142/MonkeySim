@@ -5,8 +5,7 @@ import org.mockito.*;
 
 public class MonkeySimTests{
 	//When getFirstMonkey() is called on a list of two monkeys,
-	//	it should return the Monkey with number 1,
-	//	which is at index 1.
+	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
 	public void PassingInMonkeyListOfSizeTwoShouldReturnNullMonkeyAsFirstMonkey(){
@@ -35,10 +34,8 @@ public class MonkeySimTests{
 		assertSame(firstMonkey, returnMonkey);
 	}
 
-	//When "1" is passed as a command-line argument
-	//	to the MonkeySim program, a list of two monkeys
-	//	is created and immediately the getFirstMonkey()
-	//	method is called, but it returns a null Monkey object.
+	//When getFirstMonkey() is called on an empty list of monkeys,
+	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
 	public void PassingInAnEmptyMonkeyListShouldReturnNullMonkeyAsFirstMonkey(){
