@@ -90,7 +90,7 @@ public class MonkeySimTests{
 	public void PassingIn32MonkeysWhichIsAPowerOfTwoToMonkeySimShouldReturnFiveRoundsWhichIsTheLogBaseTwoOf32(){
 		MonkeyWatcher mw = new MonkeyWatcher();
 		List<Monkey> monkeys = new LinkedList<Monkey>();
-		for(int i = 0; i < 32; i++){
+		for(int i = 0; i < 33; i++){ //33 because the equation is "s+1" in the original simulation
 			monkeys.add(new Monkey());
 		}
 		int numRounds = MonkeySim.runSimulation(monkeys, mw);
