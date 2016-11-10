@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.mockito.*;
 
 public class MonkeySimTests{
-	//When getFirstMonkey() is called on a list of two monkeys,
+	//When getFirstMonkey() is called with a list of two monkeys,
 	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
@@ -19,7 +19,7 @@ public class MonkeySimTests{
 		assertNull(returnMonkey);
 	}
 
-	//When getFirstMonkey() is called on a valid list of six monkeys,
+	//When getFirstMonkey() is called with a valid list of six monkeys,
 	//	it should return the Monkey with number 1, which is at index 1.
 	//Pin test for getFirstMonkey()
 	@Test
@@ -34,7 +34,7 @@ public class MonkeySimTests{
 		assertSame(firstMonkey, returnMonkey);
 	}
 
-	//When getFirstMonkey() is called on an empty list of monkeys,
+	//When getFirstMonkey() is called with an empty list of monkeys,
 	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
@@ -43,6 +43,19 @@ public class MonkeySimTests{
 
 		Monkey returnMonkey = MonkeySim.getFirstMonkey(monkeyList);
 		assertNull(returnMonkey);
+	}
+
+	//When getFirstMonkey() is called with a null list of Monkeys,
+	//	it should throw a NullPointerException.
+	//Pin test for getFirstMonkey()
+	@Test
+	public void PassingInANullMonkeyListShouldThrowANullPointerException(){
+		try{
+			MonkeySim.getFirstMonkey(null);
+			fail(); //Fail the test if it hasn't thrown a NullPointerException by now
+		} catch(NullPointerException e){
+
+		}
 	}
 
 	//When two valid monkeys with valid IDs and MonkeyNums
@@ -54,14 +67,19 @@ public class MonkeySimTests{
 	//Pin test for stringifyResults()
 	@Test
 	public void WhenTwoValidMonkeysAreStringifiedOnRoundFiveShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
-		Monkey monkOne = new Monkey();
-		Monkey monkTwo = new Monkey();
-		int round = 5;
+		try{
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			int round = 5;
 
-		String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-		String expectedOutput = MonkeySimOLD.stringifyResults(round, monkOne, monkTwo);
+			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
+			String expectedOutput = "//Round 5: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
 
-		assertEquals(expectedOutput, actualOutput);
+			assertEquals(expectedOutput, actualOutput);
+		} catch(NoIdException e){
+			//It's required that this is caught
+			fail();
+		}
 	}
 
 	//When a round number, such as -1, is passed
@@ -70,15 +88,20 @@ public class MonkeySimTests{
 	//	monkeys passed a banana on round -1.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenARoundNumberLessThanZeroIsStringifiedShouldStillOutputRespectiveRound(){
-		Monkey monkOne = new Monkey();
-		Monkey monkTwo = new Monkey();
-		int round = -1;
+	public void WhenANegativeRoundNumberIsStringifiedShouldStillOutputRespectiveRound(){
+		try{
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			int round = -1;
 
-		String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-		String expectedOutput = MonkeySimOLD.stringifyResults(round, monkOne, monkTwo);
+			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
+			String expectedOutput = "//Round -1: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
 
-		assertEquals(expectedOutput, actualOutput);
+			assertEquals(expectedOutput, actualOutput);
+		} catch(NoIdException e){
+			//It's required that this is caught
+			fail();
+		}
 	}
 
 	//When a null Monkey is passed into the
@@ -99,6 +122,54 @@ public class MonkeySimTests{
 		} catch(NullPointerException e){
 			//If the test reaches this line, that means it has passed
 			//	because a NullPointerException was successfully thrown.
+		}
+	}
+
+	//When two valid monkeys with valid IDs and MonkeyNums
+	//	are passed into the stringifyResults() method
+	//	during round INT_MAX (edge case), the method
+	//	should output a String detailing that the banana
+	//	was passed from the first monkey to the second monkey
+	//	on round INT_MAX.
+	//Pin test for stringifyResults()
+	@Test
+	public void WhenTwoValidMonkeysAreStringifiedOnRoundINTMAXShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
+		try{
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			int round = Integer.MAX_VALUE;
+
+			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
+			String expectedOutput = "//Round " + Integer.MAX_VALUE + ": Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
+
+			assertEquals(expectedOutput, actualOutput);
+		} catch(NoIdException e){
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When two valid monkeys with valid IDs and MonkeyNums
+	//	are passed into the stringifyResults() method
+	//	during round 0, the method
+	//	should output a String detailing that the banana
+	//	was passed from the first monkey to the second monkey
+	//	on round 0.
+	//Pin test for stringifyResults()
+	@Test
+	public void WhenTwoValidMonkeysAreStringifiedOnRoundZeroShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
+		try{
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			int round = 0;
+
+			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
+			String expectedOutput = "//Round 0: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
+
+			assertEquals(expectedOutput, actualOutput);
+		} catch(NoIdException e){
+			//It's required that this is caught
+			fail();
 		}
 	}
 }
