@@ -174,7 +174,7 @@ public class MonkeySimTests{
 	}
 
 	//When a valid monkey with monkeyNum equals 1 is generated,
-	//	calling the generateId() should always generate Id value 
+	//	calling the generateId() should always generate Id value
 	//	equals 223593.
 	//Pin test for generateId()
 	@Test
@@ -189,8 +189,8 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating ID for a monkey with monkeyNum equals 100,
 	//	the genrated ID will always be the same equals 223593.
 	//Pin test for generateId()
@@ -199,10 +199,10 @@ public class MonkeySimTests{
 		try{
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
-			
+
 			int id_1 = monkOne.generateId(100);
 			int id_2 = monkOne.generateId(100);
-			
+
 			assertEquals(id_1, 223592);
 			assertEquals(id_2, 223592);
 		} catch(Exception e){
@@ -210,8 +210,8 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating ID for a monkey with monkeyNum equals -100,
 	//	the genrated ID will always be the same equals 223492.
 	//Pin test for generateId()
@@ -219,17 +219,17 @@ public class MonkeySimTests{
 	public void WhenGeneratingIDForMonkeyNumberNegativeOneHundredShouldReturnIDEqual_223492_EveryTimeANewListIsCreated(){
 		try{
 			Monkey monkOne = new Monkey();
-			
+
 			int id_1 = monkOne.generateId(-100);
-			
+
 			assertEquals(id_1, 223392);
 		} catch(Exception e){
 			//It's required that this is caught
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a list with 100 monkeys, but not assigning
 	//  banana to any of the monkeys,
 	//  monkeyWithBanana() method would return -1
@@ -247,8 +247,8 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a list with 100 monkeys, and assigning
 	//  a banana to monkeys number 75 (index 74),
 	//  monkeyWithBanana() method would return 75 for number of monkey with banana
@@ -267,8 +267,8 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a list with 10 monkeys, assigning a banana
 	//  to monkey 10, the calling hasBanana() method for monkey 10 will return true
 	//Pin test for monkeyWithBanana()
@@ -286,11 +286,11 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a MonkeyWatcher object, then incrementing
 	//	numRounds 10 times, the value of numRounds should be 10.
-	//Pin test for monkeyWithBanana()
+	//Pin test for incrementRounds()
 	@Test
 	public void CallingIncrementRoundsTenTimesMakesNumRoundsEqualTen(){
 		try{
@@ -303,11 +303,11 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a MonkeyWatcher object, then directly
 	//	evaluating numRounds, the value of numRounds should be 0.
-	//Pin test for monkeyWithBanana()
+	//Pin test for incrementRounds()
 	@Test
 	public void CallingGetRoundsWithoutInitializationMakesNumRoundsEqualZero(){
 		try{
@@ -318,13 +318,13 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
-	
+
+
 	//When generating a MonkeyWatcher object, then incrementing numRounds
 	//  to one million, then calling MonkeyWatcher.numRounds should return
 	// 	1000001, with a one point increment, then evaluating
 	//	numRounds, the value of numRounds should be increased by exactly one.
-	//Pin test for monkeyWithBanana()
+	//Pin test for incrementRounds()
 	@Test
 	public void CallingIncrementRoundsWithHighOrderNumRoundsIncrementsByOne(){
 		try{
@@ -342,5 +342,5 @@ public class MonkeySimTests{
 			fail();
 		}
 	}
-	
+
 }
