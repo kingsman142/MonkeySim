@@ -4,18 +4,45 @@ import static org.junit.Assert.*;
 import org.mockito.*;
 
 public class MonkeySimTests{
+	//When getFirstMonkey() is called on a list of two monkeys,
+	//	it should return the Monkey with number 1,
+	//	which is at index 1.
+	//Pin test for getFirstMonkey()
+	@Test
+	public void PassingInMonkeyListOfSizeTwoShouldReturnNullMonkeyAsFirstMonkey(){
+		Monkey monkeyOne = new Monkey();
+		Monkey monkeyTwo = new Monkey();
+		List<Monkey> monkeyList = new LinkedList<Monkey>();
+		monkeyList.add(monkeyOne);
+		monkeyList.add(monkeyTwo);
+
+		Monkey returnMonkey = MonkeySim.getFirstMonkey(monkeyList);
+		assertNull(returnMonkey);
+	}
+
+	//When getFirstMonkey() is called on a valid list of six monkeys,
+	//	it should return the Monkey with number 1, which is at index 1.
+	//Pin test for getFirstMonkey()
+	@Test
+	public void PassingInValidMonkeyListOfSizeFiveShouldReturnMonkeyAtIndexOneAsFirstMonkey(){
+		List<Monkey> monkeyList = new LinkedList<Monkey>();
+		for(int i = 0; i < 6; i++){
+			monkeyList.add(new Monkey());
+		}
+
+		Monkey returnMonkey = MonkeySim.getFirstMonkey(monkeyList);
+		Monkey firstMonkey = monkeyList.get(1);
+		assertSame(firstMonkey, returnMonkey);
+	}
+
 	//When "1" is passed as a command-line argument
 	//	to the MonkeySim program, a list of two monkeys
 	//	is created and immediately the getFirstMonkey()
 	//	method is called, but it returns a null Monkey object.
 	//Pin test for getFirstMonkey()
 	@Test
-	public void PassingInMonkeyListOfSizeTwoShouldThrowNullPointerExceptionWhenRetrievingFirstMonkey(){
-		Monkey monkeyOne = new Monkey();
-		Monkey monkeyTwo = new Monkey();
+	public void PassingInAnEmptyMonkeyListShouldReturnNullMonkeyAsFirstMonkey(){
 		List<Monkey> monkeyList = new LinkedList<Monkey>();
-		monkeyList.add(monkeyOne);
-		monkeyList.add(monkeyTwo);
 
 		Monkey returnMonkey = MonkeySim.getFirstMonkey(monkeyList);
 		assertNull(returnMonkey);
