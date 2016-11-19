@@ -136,14 +136,95 @@ public class MonkeySim {
     	while (!getFirstMonkey(ml).hasBanana()) {
     	    mw.incrementRounds();
     	    Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
-    	    int newMonkeyListSize = nextMonkeyAndResize(monkeyOne, ml);
-    	    Monkey monkeyTwo = ml.get(newMonkeyListSize);
+    	    int nextMonkeyNumber = nextMonkeyAndResize(monkeyOne, ml);
+    	    Monkey monkeyTwo = ml.get(nextMonkeyNumber);
     	    Banana banana = monkeyOne.throwBananaFrom();
     	    monkeyTwo.throwBananaTo(banana);
     	    String stringifiedResults = stringifyResults(mw.getRounds(), monkeyOne, monkeyTwo);
     	    System.out.println(stringifiedResults);
     	}
     	System.out.println("First monkey has the banana!");
+    	return mw.getRounds();
+    }
+
+    /**
+     * Get a reference to the second monkey in the list.
+     * @return Monkey second monkey in list
+     */
+    public static Monkey getSecondMonkey(List<Monkey> ml){
+        Monkey secondMonkey = (ml.size() > 2) ? ml.get(2) : null;
+        return secondMonkey;
+    }
+
+    /**
+     * Checks whether a number is prime or not.
+     */
+    public static boolean isPrime(int number){
+        if (number == 0 || number == 1 || number < 0) {
+            return false;
+        } else if (number == 2) {
+            return true;
+        }
+
+        for (int i = 2; i <= number/2; i++) {
+            if (number % i == 0) { //No remainder upon division
+                return false; //The number is divisble by another number
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Return the monkey number of the next prime in the simulation
+     * in descending order.
+     */
+    public static int nextPrimeNumber(Monkey currentMonkey, List<Monkey> ml){
+        int currentMonkeyNum = currentMonkey.getMonkeyNum();
+
+        for(int i = currentMonkeyNum-1; i >= 2; i--){
+            if(isPrime(i)){
+                return i; //Return this monkey number
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Run the prime simulation, which occurs
+     * after the initial simulation.  The banana
+     * is only thrown to monkeys with a prime monkey number.
+     */
+    public static int runPrimeSimulation(List<Monkey> ml, MonkeyWatcher mw){
+        if(ml.size() == 3){
+            mw.incrementRounds();
+            Banana banana = getSecondMonkey(ml).throwBananaFrom();
+            getFirstMonkey(ml).throwBananaTo(banana);
+            String stringifiedResults = stringifyResults(mw.getRounds(), getSecondMonkey(ml), getFirstMonkey(ml));
+            System.out.println(stringifiedResults);
+        	System.out.println("First monkey has the banana!");
+
+        	return mw.getRounds();
+        }
+
+        while(!getSecondMonkey(ml).hasBanana()){
+            mw.incrementRounds();
+            Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
+            int nextPrimeMonkeyNumber = nextPrimeNumber(monkeyOne, ml);
+            Monkey monkeyTwo = ml.get(nextPrimeMonkeyNumber);
+            Banana banana = monkeyOne.throwBananaFrom();
+    	    monkeyTwo.throwBananaTo(banana);
+    	    String stringifiedResults = stringifyResults(mw.getRounds(), monkeyOne, monkeyTwo);
+    	    System.out.println(stringifiedResults);
+    	}
+
+        mw.incrementRounds();
+        Banana banana = getSecondMonkey(ml).throwBananaFrom();
+        getFirstMonkey(ml).throwBananaTo(banana);
+        String stringifiedResults = stringifyResults(mw.getRounds(), getSecondMonkey(ml), getFirstMonkey(ml));
+    	System.out.println("First monkey has the banana!");
+
     	return mw.getRounds();
     }
 
@@ -168,5 +249,13 @@ public class MonkeySim {
 
     	int numRounds = runSimulation(_monkeyList, mw);
     	System.out.println("Completed in " + numRounds + " rounds.");
+
+        //Run the prime simulation
+        System.out.println("\nStarting again...\n");
+        getFirstMonkey(_monkeyList).throwBananaFrom();
+        _monkeyList.get(startingMonkey).throwBananaTo(banana);
+        MonkeyWatcher primeMonkeyWatcher = new MonkeyWatcher();
+        int primeSimulationNumRounds = runPrimeSimulation(_monkeyList, primeMonkeyWatcher);
+        System.out.println("Completed in " + primeSimulationNumRounds + " rounds.");
     }
 }

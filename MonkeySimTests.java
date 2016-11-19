@@ -186,7 +186,7 @@ public class MonkeySimTests{
 		try {
 			Monkey monkOne = new Monkey();
 			currId = monkOne.generateId(monkOne.getMonkeyNum());
-			assertEquals(currId, 223593);
+			assertEquals(currId, 223693);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
