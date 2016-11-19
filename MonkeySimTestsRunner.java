@@ -1,9 +1,14 @@
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
 import java.util.ArrayList;
 
-import org.junit.runner.*;
-import org.junit.runner.notification.*;
-
 public class MonkeySimTestsRunner {
+
+    /**
+     * Main entry point for the test runner.
+     */
     public static void main(String[] args) {
     	ArrayList<Class> classesToTest = new ArrayList<Class>();
     	boolean anyFailures = false;
@@ -16,10 +21,10 @@ public class MonkeySimTestsRunner {
     	// to run them.
 
     	for (Class c: classesToTest) {
-    	    Result r = JUnitCore.runClasses(c);
-    	    // Print out any failures for this class.
+    	    Result res = JUnitCore.runClasses(c);
+    	       //Print out any failures for this class.
             System.out.println("\n-----------------------------------------------------------\n");
-    	    for (Failure f : r.getFailures()) {
+    	    for (Failure f : res.getFailures()) {
     		    System.out.println(f.toString());
     	    }
 
@@ -29,7 +34,7 @@ public class MonkeySimTestsRunner {
     	    // successes will ever eclipse the fact that there
     	    // was at least one failure.
 
-    	    if (!r.wasSuccessful()) {
+    	    if (!res.wasSuccessful()) {
     		    anyFailures = true;
     	    }
 
