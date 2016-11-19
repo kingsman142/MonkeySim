@@ -51,7 +51,7 @@ public class MonkeySimTests{
 	@Test
 	public void PassingInANullMonkeyListShouldThrowANullPointerException(){
 		try{
-			MonkeySim.getFirstMonkey(null);
+			Monkey firstMonkey = MonkeySim.getFirstMonkey(null);
 			fail(); //Fail the test if it hasn't thrown a NullPointerException by now
 		} catch(NullPointerException e){
 

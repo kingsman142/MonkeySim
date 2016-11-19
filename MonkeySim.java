@@ -66,7 +66,7 @@ public class MonkeySim {
      */
 
     public static String stringifyResults(int c, Monkey m, Monkey m2) {
-    	String toReturn = new String("");
+    	String toReturn = "";
     	try {
     	    toReturn += "//Round ";
     	    toReturn += "" + c;
@@ -76,7 +76,7 @@ public class MonkeySim {
     	    toReturn += m2.getMonkeyNum() + " / ID " + m2.getId() + ")";
     	} catch (NoIdException noidex) {
     	    System.out.println("INVALID MONKEY!");
-    	    System.exit(2);
+    	    throw new RuntimeException();
     	}
     	return toReturn;
     }
