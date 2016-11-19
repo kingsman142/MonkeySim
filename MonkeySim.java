@@ -223,6 +223,7 @@ public class MonkeySim {
         Banana banana = getSecondMonkey(ml).throwBananaFrom();
         getFirstMonkey(ml).throwBananaTo(banana);
         String stringifiedResults = stringifyResults(mw.getRounds(), getSecondMonkey(ml), getFirstMonkey(ml));
+        System.out.println(stringifiedResults);
     	System.out.println("First monkey has the banana!");
 
     	return mw.getRounds();

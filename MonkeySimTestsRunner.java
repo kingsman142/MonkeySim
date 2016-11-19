@@ -16,6 +16,7 @@ public class MonkeySimTestsRunner {
     	// ADD ANY MORE CLASSES YOU WISH TO TEST HERE
 
     	classesToTest.add(MonkeySimTests.class);
+        classesToTest.add(PrimeMonkeySimTests.class);
 
     	// For all test classes added, loop through and use JUnit
     	// to run them.
