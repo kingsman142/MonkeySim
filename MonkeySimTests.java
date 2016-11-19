@@ -157,17 +157,20 @@ public class MonkeySimTests{
 	//	on round 0.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenTwoValidMonkeysAreStringifiedOnRoundZeroShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
-		try{
+	public void whenTwoValidMonkeysAreStringifiedOnRoundZeroShouldReturnCorrectResults() {
+		try {
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
-			int round = 0;
 
+			String expectedOutput = "//Round 0: Threw banana from Monkey (#";
+			expectedOutput += monkOne.getMonkeyNum() + " / ID " + monkOne.getId();
+			expectedOutput += ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID ";
+			expectedOutput += monkTwo.getId() + ")";
+			int round = 0;
 			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-			String expectedOutput = "//Round 0: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
 
 			assertEquals(expectedOutput, actualOutput);
-		} catch(NoIdException e){
+		} catch (NoIdException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -178,13 +181,13 @@ public class MonkeySimTests{
 	//	equals 223593.
 	//Pin test for generateId()
 	@Test
-	public void WhenGeneratingIDForMonkeyNumberOneWillAlwaysReturnIDEqual_223593(){
-		int currID;
-		try{
+	public void whenGeneratingIdForMonkeyNumberOneWillAlwaysReturnIdEqualTo223593() {
+		int currId;
+		try {
 			Monkey monkOne = new Monkey();
-			currID = monkOne.generateId(monkOne.getMonkeyNum());
-			assertEquals(currID, 223593);
-		} catch(Exception e){
+			currId = monkOne.generateId(monkOne.getMonkeyNum());
+			assertEquals(currId, 223593);
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -195,17 +198,17 @@ public class MonkeySimTests{
 	//	the genrated ID will always be the same equals 223593.
 	//Pin test for generateId()
 	@Test
-	public void WhenGeneratingIDForMonkeyNumberOneHundredWillAlwaysReturnIDEqual_223592_EveryTimeANewListIsCreated(){
-		try{
+	public void whenGeneratingIdForMonkeyNumberOneHundredWillAlwaysReturnIdEqualTo223592() {
+		try {
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
 
-			int id_1 = monkOne.generateId(100);
-			int id_2 = monkOne.generateId(100);
+			int id1 = monkOne.generateId(100);
+			int id2 = monkOne.generateId(100);
 
-			assertEquals(id_1, 223592);
-			assertEquals(id_2, 223592);
-		} catch(Exception e){
+			assertEquals(id1, 223592);
+			assertEquals(id2, 223592);
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -216,14 +219,14 @@ public class MonkeySimTests{
 	//	the genrated ID will always be the same equals 223492.
 	//Pin test for generateId()
 	@Test
-	public void WhenGeneratingIDForMonkeyNumberNegativeOneHundredShouldReturnIDEqual_223492_EveryTimeANewListIsCreated(){
-		try{
+	public void whenGeneratingIdForMonkeyNumberNegativeOneHundredShouldReturnIdEqualTo223492() {
+		try {
 			Monkey monkOne = new Monkey();
 
-			int id_1 = monkOne.generateId(-100);
+			int id1 = monkOne.generateId(-100);
 
-			assertEquals(id_1, 223392);
-		} catch(Exception e){
+			assertEquals(id1, 223392);
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -235,14 +238,14 @@ public class MonkeySimTests{
 	//  monkeyWithBanana() method would return -1
 	//Pin test for monkeyWithBanana()
 	@Test
-	public void CreateListWithOneHundredMonkeysWithoutAssignedBananaShouldReturnNegativeOneForMonkeyWithBanana(){
-		try{
+	public void whenNoMonkeyIsAssignedTheBananaThenReturnNegativeOneWhenCallMonkeyWithBanana() {
+		try {
 			List<Monkey> monkeyList = new LinkedList<Monkey>();
-			for(int i = 0; i < 100; i++){
+			for (int i = 0; i < 100; i++) {
 				monkeyList.add(new Monkey());
 			}
 			assertEquals(MonkeySim.monkeyWithBanana(monkeyList), -1);
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -254,15 +257,15 @@ public class MonkeySimTests{
 	//  monkeyWithBanana() method would return 75 for number of monkey with banana
 	//Pin test for monkeyWithBanana()
 	@Test
-	public void CreateListWithOneHundredMonkeysWithAssignedBananaForMonkeySeventyFiveShouldReturnSeventyFiveForMonkeyWithBanana(){
-		try{
+	public void whenMonkeySeventyFiveIsThrownTheBananaThenMonkeyWithBananaShouldBeMonkey75() {
+		try {
 			List<Monkey> ml = new LinkedList<Monkey>();
-			for(int i = 0; i < 100; i++){
+			for (int i = 0; i < 100; i++) {
 				ml.add(new Monkey());
 			}
 			(ml.get(74)).throwBananaTo(new Banana());
 			assertEquals(MonkeySim.monkeyWithBanana(ml), 75);
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -273,15 +276,16 @@ public class MonkeySimTests{
 	//  to monkey 10, the calling hasBanana() method for monkey 10 will return true
 	//Pin test for monkeyWithBanana()
 	@Test
-	public void AssigningBananaToMonkeyNumberTenAndCallhasBananaForMonkeyTenShouldReturnTrue(){
-		try{
+	public void assigningBananaToMonkeyNumberTenAndCallhasBananaForMonkeyTenShouldReturnTrue() {
+		try {
 			List<Monkey> ml = new LinkedList<Monkey>();
-			Banana b = new Banana();
-			for(int i = 0; i < 20; i++)
+			Banana banana = new Banana();
+			for (int i = 0; i < 20; i++) {
 				ml.add(new Monkey());
-			ml.get(9).throwBananaTo(b);
+			}
+			ml.get(9).throwBananaTo(banana);
 			assertTrue((ml.get(9)).hasBanana());
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -292,13 +296,14 @@ public class MonkeySimTests{
 	//	numRounds 10 times, the value of numRounds should be 10.
 	//Pin test for incrementRounds()
 	@Test
-	public void CallingIncrementRoundsTenTimesMakesNumRoundsEqualTen(){
-		try{
+	public void callingIncrementRoundsTenTimesMakesNumRoundsEqualTen() {
+		try {
 			MonkeyWatcher mw = new MonkeyWatcher();
-			for(int i = 0; i < 10; i++)
+			for (int i = 0; i < 10; i++) {
 				mw.incrementRounds();
+			}
 			assertEquals(mw.getRounds(), 10);
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -309,11 +314,11 @@ public class MonkeySimTests{
 	//	evaluating numRounds, the value of numRounds should be 0.
 	//Pin test for incrementRounds()
 	@Test
-	public void CallingGetRoundsWithoutInitializationMakesNumRoundsEqualZero(){
-		try{
+	public void callingGetRoundsWithoutInitializationMakesNumRoundsEqualZero() {
+		try {
 			MonkeyWatcher mw = new MonkeyWatcher();
 			assertEquals(mw.getRounds(), 0);
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
@@ -326,18 +331,19 @@ public class MonkeySimTests{
 	//	numRounds, the value of numRounds should be increased by exactly one.
 	//Pin test for incrementRounds()
 	@Test
-	public void CallingIncrementRoundsWithHighOrderNumRoundsIncrementsByOne(){
-		try{
+	public void callingIncrementRoundsWithHighOrderNumRoundsIncrementsByOne() {
+		try {
 			int before = 0;
-			int after = 0;
 			MonkeyWatcher mw = new MonkeyWatcher();
-			for(int i = 0; i < 1000000; i++)
+			for (int i = 0; i < 1000000; i++) {
 				mw.incrementRounds();
+			}
 			before = mw.getRounds();
 			mw.incrementRounds();
+			int after = 0;
 			after = mw.getRounds();
 			assertEquals(before, after - 1);
-		} catch(Exception e){
+		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
