@@ -151,7 +151,7 @@ public class MonkeySim {
      * Get a reference to the second monkey in the list.
      * @return Monkey second monkey in list
      */
-    public static Monkey getSecondMonkey(List<Monkey> ml){
+    public static Monkey getSecondMonkey(List<Monkey> ml) {
         Monkey secondMonkey = (ml.size() > 2) ? ml.get(2) : null;
         return secondMonkey;
     }
@@ -159,14 +159,14 @@ public class MonkeySim {
     /**
      * Checks whether a number is prime or not.
      */
-    public static boolean isPrime(int number){
+    public static boolean isPrime(int number) {
         if (number == 0 || number == 1 || number < 0) {
             return false;
         } else if (number == 2) {
             return true;
         }
 
-        for (int i = 2; i <= number/2; i++) {
+        for (int i = 2; i <= number / 2; i++) {
             if (number % i == 0) { //No remainder upon division
                 return false; //The number is divisble by another number
             }
@@ -179,11 +179,11 @@ public class MonkeySim {
      * Return the monkey number of the next prime in the simulation
      * in descending order.
      */
-    public static int nextPrimeNumber(Monkey currentMonkey, List<Monkey> ml){
+    public static int nextPrimeNumber(Monkey currentMonkey, List<Monkey> ml) {
         int currentMonkeyNum = currentMonkey.getMonkeyNum();
 
-        for(int i = currentMonkeyNum-1; i >= 2; i--){
-            if(isPrime(i)){
+        for (int i = currentMonkeyNum - 1; i >= 2; i--) {
+            if (isPrime(i)) {
                 return i; //Return this monkey number
             }
         }
@@ -196,19 +196,21 @@ public class MonkeySim {
      * after the initial simulation.  The banana
      * is only thrown to monkeys with a prime monkey number.
      */
-    public static int runPrimeSimulation(List<Monkey> ml, MonkeyWatcher mw){
-        if(ml.size() == 3){
+    public static int runPrimeSimulation(List<Monkey> ml, MonkeyWatcher mw) {
+        if (ml.size() == 3) {
             mw.incrementRounds();
-            Banana banana = getSecondMonkey(ml).throwBananaFrom();
-            getFirstMonkey(ml).throwBananaTo(banana);
-            String stringifiedResults = stringifyResults(mw.getRounds(), getSecondMonkey(ml), getFirstMonkey(ml));
+            Monkey secondMonk = getSecondMonkey(ml);
+            Monkey firstMonk = getFirstMonkey(ml);
+            Banana banana = secondMonk.throwBananaFrom();
+            firstMonk.throwBananaTo(banana);
+            String stringifiedResults = stringifyResults(mw.getRounds(), secondMonk, firstMonk);
             System.out.println(stringifiedResults);
         	System.out.println("First monkey has the banana!");
 
         	return mw.getRounds();
         }
 
-        while(!getSecondMonkey(ml).hasBanana()){
+        while (!getSecondMonkey(ml).hasBanana()) {
             mw.incrementRounds();
             Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
             int nextPrimeMonkeyNumber = nextPrimeNumber(monkeyOne, ml);
@@ -220,9 +222,11 @@ public class MonkeySim {
     	}
 
         mw.incrementRounds();
-        Banana banana = getSecondMonkey(ml).throwBananaFrom();
-        getFirstMonkey(ml).throwBananaTo(banana);
-        String stringifiedResults = stringifyResults(mw.getRounds(), getSecondMonkey(ml), getFirstMonkey(ml));
+        Monkey secondMonk = getSecondMonkey(ml);
+        Monkey firstMonk = getFirstMonkey(ml);
+        Banana banana = secondMonk.throwBananaFrom();
+        firstMonk.throwBananaTo(banana);
+        String stringifiedResults = stringifyResults(mw.getRounds(), secondMonk, firstMonk);
         System.out.println(stringifiedResults);
     	System.out.println("First monkey has the banana!");
 

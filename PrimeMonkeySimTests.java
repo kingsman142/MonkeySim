@@ -1,14 +1,19 @@
-import java.util.*;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-public class PrimeMonkeySimTests{
+import org.junit.Test;
+
+import java.util.List;
+
+public class PrimeMonkeySimTests {
 	//When 0 is passed into the isPrime() function,
 	//	it should return false because 0 is not a
 	//	prime number.
 	@Test
-	public void ZeroIsNotAPrimeNumber(){
+	public void zeroIsNotAPrimeNumber() {
 		boolean primeValue = MonkeySim.isPrime(0);
 		assertFalse(primeValue);
 	}
@@ -17,7 +22,7 @@ public class PrimeMonkeySimTests{
 	//	it should return false because 1 is not a
 	//	prime number.
 	@Test
-	public void OneIsNotAPrimeNumber(){
+	public void oneIsNotAPrimeNumber() {
 		boolean primeValue = MonkeySim.isPrime(1);
 		assertFalse(primeValue);
 	}
@@ -26,7 +31,7 @@ public class PrimeMonkeySimTests{
 	//	it should return true because 2 is a prime
 	//	number.
 	@Test
-	public void TwoIsAPrimeNumber(){
+	public void twoIsAPrimeNumber() {
 		boolean primeValue = MonkeySim.isPrime(2);
 		assertTrue(primeValue);
 	}
@@ -36,7 +41,7 @@ public class PrimeMonkeySimTests{
 	//	should return false for all of them because
 	//	negative numbers are not prime numbers.
 	@Test
-	public void NegativeNumbersAreNotPrime(){
+	public void negativeNumbersAreNotPrime() {
 		boolean negativeOnePrimeValue = MonkeySim.isPrime(-1);
 		boolean negativeTwoPrimeValue = MonkeySim.isPrime(-2);
 		boolean negativeFivePrimeValue = MonkeySim.isPrime(-5);
