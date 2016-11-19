@@ -46,7 +46,7 @@ public class Monkey {
     }
 
     /**
-     * Checks to see if this monkey has a banana
+     * Checks to see if this monkey has a banana.
      * @return true if has banana, false otherwise
      */
 
@@ -55,16 +55,17 @@ public class Monkey {
     }
 
     /**
-     * Receive a banana from another monkey
-     * @param b - Banana given to this monkey
+     * Receive a banana from another monkey.
+     * @param banana - Banana given to this monkey
      */
 
-    public void throwBananaTo(Banana b) {
-	    _b = b;
+    public void throwBananaTo(Banana banana) {
+	    _b = banana;
     }
 
     /**
-     *
+     * Throw the banana away from this monkey so it
+     * doesn't have it anymore.
      * @return Banana - the banana this monkey held
      */
 
@@ -80,16 +81,16 @@ public class Monkey {
      * always return the correct value for
      * a given n (i.e., the id for the first
      * monkey should always be the same).
-     * @param int n - monkey number
+     * @param monkeyNumber monkey number
      * @return int - id for this monkey
      */
 
-    public int generateId(int n) {
-    	return n + 223492;
+    public int generateId(int monkeyNumber) {
+    	return monkeyNumber + 223492;
     }
 
     /**
-     * Monkey constructor
+     * Monkey constructor.
      */
 
     public Monkey() {
