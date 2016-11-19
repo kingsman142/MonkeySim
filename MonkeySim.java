@@ -82,39 +82,49 @@ public class MonkeySim {
     }
 
     /**
-     * Return the number of the monkey with a banana
-     * @param
+     * Return the number of the monkey with a banana.
+     * @param ml list of monkeys in the simulation currently
      * @return int number of monkey w/ banana
      */
 
     public static int monkeyWithBanana(List<Monkey> ml) {
-    	Monkey m;
-        for (int j=0; j < ml.size(); j++) {
-    	    m = ml.get(j);
-    	    if (m.hasBanana())
-    		    return m.getMonkeyNum();
+    	Monkey monkey;
+        for (int j = 0; j < ml.size(); j++) {
+    	    monkey = ml.get(j);
+    	    if (monkey.hasBanana()) {
+    		    return monkey.getMonkeyNum();
+            }
     	}
     	return -1;
     }
 
-    public static int addMoreMonkeys(int n, List<Monkey> ml) {
-    	while (ml.size() <= n) {
+    /**
+     * Add more monkeys to the monkey list.
+     * @return int new size of the monkey list
+     */
+    public static int addMoreMonkeys(int numberToAdd, List<Monkey> ml) {
+    	while (ml.size() <= numberToAdd) {
     	    ml.add(new Monkey());
     	}
     	return ml.size();
     }
 
-    public static int nextMonkeyAndResize(Monkey m, List<Monkey> ml) {
-    	int n = m.nextMonkey();
-    	if (n > ml.size()) {
-    	    int zarg = addMoreMonkeys(n, ml);
+    /**
+     * Find the next monkey using the algorithm.
+     * Resize the monkey list if necessary to accomodate more monkeys.
+     * @return int next monkey number
+     */
+    public static int nextMonkeyAndResize(Monkey currMonkey, List<Monkey> ml) {
+    	int nextMonkeyNum = currMonkey.nextMonkey();
+    	if (nextMonkeyNum > ml.size()) {
+    	    int zarg = addMoreMonkeys(nextMonkeyNum, ml);
     	}
 
-    	return n;
+    	return nextMonkeyNum;
     }
 
     /**
-     * Run the simulation
+     * Run the simulation.
      * @param ml List of Monkeys
      * @param mw watcher of monkey
      * @return int number of rounds taken to get to first monkey
@@ -125,13 +135,13 @@ public class MonkeySim {
 
     	while (!getFirstMonkey(ml).hasBanana()) {
     	    mw.incrementRounds();
-    	    Monkey m = ml.get(monkeyWithBanana(ml));
-    	    int n = nextMonkeyAndResize(m, ml);
-    	    Monkey m2 = ml.get(n);
-    	    Banana b = m.throwBananaFrom();
-    	    m2.throwBananaTo(b);
-    	    String s = stringifyResults(mw.getRounds(), m, m2);
-    	    System.out.println(s);
+    	    Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
+    	    int newMonkeyListSize = nextMonkeyAndResize(monkeyOne, ml);
+    	    Monkey monkeyTwo = ml.get(newMonkeyListSize);
+    	    Banana banana = monkeyOne.throwBananaFrom();
+    	    monkeyTwo.throwBananaTo(banana);
+    	    String stringifiedResults = stringifyResults(mw.getRounds(), monkeyOne, monkeyTwo);
+    	    System.out.println(stringifiedResults);
     	}
     	System.out.println("First monkey has the banana!");
     	return mw.getRounds();
@@ -145,16 +155,16 @@ public class MonkeySim {
      */
 
     public static void main(String[] args) {
-    	int s = getStartingMonkeyNum(args);
+    	int startingMonkey = getStartingMonkeyNum(args);
     	Monkey tmpMonkey;
-    	Banana b = new Banana();
+    	Banana banana = new Banana();
     	MonkeyWatcher mw = new MonkeyWatcher();
 
-    	for (int j = 0; j < s + 1; j++) {
+    	for (int j = 0; j < startingMonkey + 1; j++) {
     	    tmpMonkey = new Monkey();
     	    _monkeyList.add(tmpMonkey);
     	}
-    	_monkeyList.get(s).throwBananaTo(b);
+    	_monkeyList.get(startingMonkey).throwBananaTo(banana);
 
     	int numRounds = runSimulation(_monkeyList, mw);
     	System.out.println("Completed in " + numRounds + " rounds.");
