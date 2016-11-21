@@ -1,14 +1,27 @@
-import java.util.*;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-public class MonkeySimTests{
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.Test;
+//import org.mockito.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class MonkeySimTests {
 	//When getFirstMonkey() is called with a list of two monkeys,
 	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
-	public void PassingInMonkeyListOfSizeTwoShouldReturnNullMonkeyAsFirstMonkey(){
+	public void passingInMonkeyListOfSizeTwoShouldReturnNullMonkeyAsFirstMonkey() {
 		Monkey monkeyOne = new Monkey();
 		Monkey monkeyTwo = new Monkey();
 		List<Monkey> monkeyList = new LinkedList<Monkey>();
@@ -23,9 +36,9 @@ public class MonkeySimTests{
 	//	it should return the Monkey with number 1, which is at index 1.
 	//Pin test for getFirstMonkey()
 	@Test
-	public void PassingInValidMonkeyListOfSizeFiveShouldReturnMonkeyAtIndexOneAsFirstMonkey(){
+	public void passingInValidMonkeyListOfSizeFiveShouldReturnMonkeyAtIndexOneAsFirstMonkey() {
 		List<Monkey> monkeyList = new LinkedList<Monkey>();
-		for(int i = 0; i < 6; i++){
+		for (int i = 0; i < 6; i++) {
 			monkeyList.add(new Monkey());
 		}
 
@@ -38,7 +51,7 @@ public class MonkeySimTests{
 	//	it should return a null Monkey reference.
 	//Pin test for getFirstMonkey()
 	@Test
-	public void PassingInAnEmptyMonkeyListShouldReturnNullMonkeyAsFirstMonkey(){
+	public void passingInAnEmptyMonkeyListShouldReturnNullMonkeyAsFirstMonkey() {
 		List<Monkey> monkeyList = new LinkedList<Monkey>();
 
 		Monkey returnMonkey = MonkeySim.getFirstMonkey(monkeyList);
@@ -49,12 +62,12 @@ public class MonkeySimTests{
 	//	it should throw a NullPointerException.
 	//Pin test for getFirstMonkey()
 	@Test
-	public void PassingInANullMonkeyListShouldThrowANullPointerException(){
-		try{
+	public void passingInANullMonkeyListShouldThrowANullPointerException() {
+		try {
 			Monkey firstMonkey = MonkeySim.getFirstMonkey(null);
 			fail(); //Fail the test if it hasn't thrown a NullPointerException by now
-		} catch(NullPointerException e){
-
+		} catch (NullPointerException ex) {
+                    ;
 		}
 	}
 
@@ -66,17 +79,21 @@ public class MonkeySimTests{
 	//	on round 5.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenTwoValidMonkeysAreStringifiedOnRoundFiveShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
-		try{
+	public void when2MonkeysStringifiedOnRound5ShouldReturnStringWithAllMonkeyNums_Round_IDs() {
+		try {
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
 			int round = 5;
 
 			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-			String expectedOutput = "//Round 5: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
+			String expectedOutput = "//Round 5: Threw banana from Monkey (#"
+                                + monkOne.getMonkeyNum()
+                                + " / ID " + monkOne.getId() + ") to Monkey (#"
+                                + monkTwo.getMonkeyNum()
+                                + " / ID " + monkTwo.getId() + ")";
 
 			assertEquals(expectedOutput, actualOutput);
-		} catch(NoIdException e){
+		} catch (NoIdException ex) {
 			//It's required that this is caught
 			fail();
 		}
@@ -88,17 +105,21 @@ public class MonkeySimTests{
 	//	monkeys passed a banana on round -1.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenANegativeRoundNumberIsStringifiedShouldStillOutputRespectiveRound(){
-		try{
+	public void whenANegativeRoundNumberIsStringifiedShouldStillOutputRespectiveRound() {
+		try {
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
 			int round = -1;
 
 			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-			String expectedOutput = "//Round -1: Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
+			String expectedOutput = "//Round -1: Threw banana from Monkey (#"
+                                + monkOne.getMonkeyNum() + " / ID "
+                                + monkOne.getId() + ") to Monkey (#"
+                                + monkTwo.getMonkeyNum() + " / ID "
+                                + monkTwo.getId() + ")";
 
 			assertEquals(expectedOutput, actualOutput);
-		} catch(NoIdException e){
+		} catch (NoIdException ex) {
 			//It's required that this is caught
 			fail();
 		}
@@ -110,16 +131,19 @@ public class MonkeySimTests{
 	//	object reference should throw a NullPointerException.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenANullMonkeyIsStringifiedOnRoundFiveShouldThrowNullPointerException(){
-		try{
+	public void whenANullMonkeyIsStringifiedOnRoundFiveShouldThrowNullPointerException() {
+		try {
 			Monkey monkOne = null;
 			Monkey monkTwo = new Monkey();
 			int round = 5;
 
-			String stringifiedResult = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-			fail(); //A NullPointerException should have been thrown by this point
-					//	in the test.
-		} catch(NullPointerException e){
+			String stringifiedResult = 
+                                MonkeySim.stringifyResults(round, monkOne, monkTwo);
+                        
+                        //A NullPointerException should have been thrown by this point
+                        //	in the test.
+                        fail(); 
+		} catch (NullPointerException ex) {
 			//If the test reaches this line, that means it has passed
 			//	because a NullPointerException was successfully thrown.
 		}
@@ -133,17 +157,23 @@ public class MonkeySimTests{
 	//	on round INT_MAX.
 	//Pin test for stringifyResults()
 	@Test
-	public void WhenTwoValidMonkeysAreStringifiedOnRoundINTMAXShouldReturnStringDetailingAllMonkeyNumsAndRoundAndIDs(){
-		try{
+	public void
+         when2MonkeysStringifiedOnRoundIntmaxsReturnStringWithAllMonkeyNumsAndRoundAndIDs() {
+		try {
 			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
 			int round = Integer.MAX_VALUE;
 
 			String actualOutput = MonkeySim.stringifyResults(round, monkOne, monkTwo);
-			String expectedOutput = "//Round " + Integer.MAX_VALUE + ": Threw banana from Monkey (#" + monkOne.getMonkeyNum() + " / ID " + monkOne.getId() + ") to Monkey (#" + monkTwo.getMonkeyNum() + " / ID " + monkTwo.getId() + ")";
+			String expectedOutput = "//Round " + Integer.MAX_VALUE
+                                + ": Threw banana from Monkey (#"
+                                + monkOne.getMonkeyNum() + " / ID "
+                                + monkOne.getId() + ") to Monkey (#"
+                                + monkTwo.getMonkeyNum() + " / ID "
+                                + monkTwo.getId() + ")";
 
 			assertEquals(expectedOutput, actualOutput);
-		} catch(NoIdException e){
+		} catch (NoIdException ex) {
 			//It's required that this is caught
 			fail();
 		}
@@ -178,15 +208,15 @@ public class MonkeySimTests{
 
 	//When a valid monkey with monkeyNum equals 1 is generated,
 	//	calling the generateId() should always generate Id value
-	//	equals 223593.
+	//	equals 223595.
 	//Pin test for generateId()
 	@Test
-	public void whenGeneratingIdForMonkeyNumberOneWillAlwaysReturnIdEqualTo223593() {
+	public void whenGeneratingIdForMonkeyNumberOneWillAlwaysReturnIdEqualTo223595() {
 		int currId;
 		try {
 			Monkey monkOne = new Monkey();
 			currId = monkOne.generateId(monkOne.getMonkeyNum());
-			assertEquals(currId, 223693);
+			assertEquals(currId, 223695);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
@@ -253,7 +283,7 @@ public class MonkeySimTests{
 
 
 	//When generating a list with 100 monkeys, and assigning
-	//  a banana to monkeys number 75 (index 74),
+	//  a banana to monkeys number 75,
 	//  monkeyWithBanana() method would return 75 for number of monkey with banana
 	//Pin test for monkeyWithBanana()
 	@Test
@@ -263,7 +293,7 @@ public class MonkeySimTests{
 			for (int i = 0; i < 100; i++) {
 				ml.add(new Monkey());
 			}
-			(ml.get(74)).throwBananaTo(new Banana());
+			(ml.get(75)).throwBananaTo(new Banana());
 			assertEquals(MonkeySim.monkeyWithBanana(ml), 75);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
