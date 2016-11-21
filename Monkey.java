@@ -1,22 +1,20 @@
-import java.util.*;
-
 public class Monkey {
 
-    private static int _monkeyNum = 0;
+    private static int monkeyNum = 0;
 
-    private int _thisMonkeyNum = 0;
+    private int thisMonkeyNum = 0;
 
-    private int _id = -1;
+    private int id = -1;
 
-    private Banana _b = null;
+    private Banana bn = null;
 
     /**
-     * Get this monkey's number
+     * Get this monkey's number.
      * @return int monkey number
      */
 
     public int getMonkeyNum() {
-	       return _thisMonkeyNum;
+	       return thisMonkeyNum;
     }
 
     /**
@@ -25,10 +23,10 @@ public class Monkey {
      */
 
     public int getId() throws NoIdException {
-    	if (_id < 0) {
+    	if (id < 0) {
     	    throw new NoIdException();
     	} else {
-    	    return _id;
+    	    return id;
     	}
     }
 
@@ -38,10 +36,10 @@ public class Monkey {
      */
 
     public int nextMonkey() {
-    	if (_thisMonkeyNum % 2 == 0) {
-    	    return _thisMonkeyNum / 2;
+    	if (thisMonkeyNum % 2 == 0) {
+    	    return thisMonkeyNum / 2;
     	} else {
-    	    return (_thisMonkeyNum * 3) + 1;
+    	    return (thisMonkeyNum * 3) + 1;
     	}
     }
 
@@ -51,7 +49,7 @@ public class Monkey {
      */
 
     public boolean hasBanana() {
-	    return _b != null;
+	    return bn != null;
     }
 
     /**
@@ -60,7 +58,7 @@ public class Monkey {
      */
 
     public void throwBananaTo(Banana banana) {
-	    _b = banana;
+	    bn = banana;
     }
 
     /**
@@ -70,8 +68,8 @@ public class Monkey {
      */
 
     public Banana throwBananaFrom() {
-    	Banana toReturn = _b;
-    	_b = null;
+    	Banana toReturn = bn;
+    	bn = null;
     	return toReturn;
     }
 
@@ -94,9 +92,9 @@ public class Monkey {
      */
 
     public Monkey() {
-    	_thisMonkeyNum = _monkeyNum;
-    	_monkeyNum++;
-    	_id = generateId(_thisMonkeyNum);
+    	thisMonkeyNum = monkeyNum;
+    	monkeyNum++;
+    	id = generateId(thisMonkeyNum);
     }
 
 }
