@@ -1,266 +1,100 @@
-import java.util.*;
+public class Monkey {
 
-public class MonkeySim {
+    private static int monkeyNum = 0;
 
-    private static List<Monkey> _monkeyList = new LinkedList<Monkey>();
+    private int thisMonkeyNum = 0;
 
-    public static final int HEADER = 50000;
+    private int id = -1;
+
+    private Banana bn = null;
 
     /**
-     * Print out use message and exit with
-     * error code 1.
+     * Get this monkey's number.
+     * @return int monkey number
      */
 
-    public static void errorAndExit() {
-    	System.out.println("USAGE:");
-    	System.out.println("java MonkeySim <num_monkeys>");
-    	System.out.println("<num_monkeys> must be a positive signed 32-bit integer");
-    	System.exit(1);
+    public int getMonkeyNum() {
+	       return thisMonkeyNum;
     }
 
     /**
-     * Given a list of arguments from the command line, return
-     * the starting monkey number.
-     * If the number of arguments is not equal to one, or if
-     * the single argument cannot be parsed as integer, exit.
-     * @param args - array of args from command line
-     * @return int - starting monkey
+     * Getter for id.
+     * @return id of monkey
      */
 
-    public static int getStartingMonkeyNum(String[] args) {
-    	int s = 0;
-
-    	if (args.length != 1) {
-    	    errorAndExit();
+    public int getId() throws NoIdException {
+    	if (id < 0) {
+    	    throw new NoIdException();
+    	} else {
+    	    return id;
     	}
-
-    	try {
-    	    s = Integer.parseInt(args[0]);
-    	} catch (Exception e) {
-    	    errorAndExit();
-    	}
-
-    	if (s < 1) {
-    	    errorAndExit();
-    	}
-
-    	return s;
     }
 
     /**
-     * Get a reference to the first monkey in the list.
-     * @return Monkey first monkey in list
+     * Return which monkey should get banana next.
+     * @return int which monkey should get banana.
      */
 
-    public static Monkey getFirstMonkey(List<Monkey> ml) {
-        Monkey firstMonkey = (ml.size() > 2) ? ml.get(1) : null;
-        return firstMonkey;
+    public int nextMonkey() {
+    	if (thisMonkeyNum % 2 == 0) {
+    	    return thisMonkeyNum / 2;
+    	} else {
+    	    return (thisMonkeyNum * 3) + 1;
+    	}
     }
 
     /**
-     * Return a String version of a round
-     * @param c Round number
-     * @param m Monkey thrown from
-     * @param m2 Monkey thrown to
-     * @return String string version of round
+     * Checks to see if this monkey has a banana.
+     * @return true if has banana, false otherwise
      */
 
-    public static String stringifyResults(int c, Monkey m, Monkey m2) {
-    	String toReturn = "";
-    	try {
-    	    toReturn += "//Round ";
-    	    toReturn += "" + c;
-    	    toReturn += ": Threw banana from Monkey (#";
-    	    toReturn += m.getMonkeyNum() + " / ID " + m.getId();
-    	    toReturn += ") to Monkey (#";
-    	    toReturn += m2.getMonkeyNum() + " / ID " + m2.getId() + ")";
-    	} catch (NoIdException noidex) {
-    	    System.out.println("INVALID MONKEY!");
-    	    throw new RuntimeException();
-    	}
+    public boolean hasBanana() {
+	    return bn != null;
+    }
+
+    /**
+     * Receive a banana from another monkey.
+     * @param banana - Banana given to this monkey
+     */
+
+    public void throwBananaTo(Banana banana) {
+	    bn = banana;
+    }
+
+    /**
+     * Throw the banana away from this monkey so it
+     * doesn't have it anymore.
+     * @return Banana - the banana this monkey held
+     */
+
+    public Banana throwBananaFrom() {
+    	Banana toReturn = bn;
+    	bn = null;
     	return toReturn;
     }
 
     /**
-     * Return the number of the monkey with a banana.
-     * @param ml list of monkeys in the simulation currently
-     * @return int number of monkey w/ banana
+     * Generate a unique ID for this monkey.
+     * Note that monkey ID generation must
+     * always return the correct value for
+     * a given n (i.e., the id for the first
+     * monkey should always be the same).
+     * @param monkeyNumber monkey number
+     * @return int - id for this monkey
      */
 
-    public static int monkeyWithBanana(List<Monkey> ml) {
-    	Monkey monkey;
-        for (int j = 0; j < ml.size(); j++) {
-    	    monkey = ml.get(j);
-    	    if (monkey.hasBanana()) {
-    		    return monkey.getMonkeyNum();
-            }
-    	}
-    	return -1;
+    public int generateId(int monkeyNumber) {
+    	return monkeyNumber + 223492;
     }
 
     /**
-     * Add more monkeys to the monkey list.
-     * @return int new size of the monkey list
-     */
-    public static int addMoreMonkeys(int numberToAdd, List<Monkey> ml) {
-    	while (ml.size() <= numberToAdd) {
-    	    ml.add(new Monkey());
-    	}
-    	return ml.size();
-    }
-
-    /**
-     * Find the next monkey using the algorithm.
-     * Resize the monkey list if necessary to accomodate more monkeys.
-     * @return int next monkey number
-     */
-    public static int nextMonkeyAndResize(Monkey currMonkey, List<Monkey> ml) {
-    	int nextMonkeyNum = currMonkey.nextMonkey();
-    	if (nextMonkeyNum > ml.size()) {
-    	    int zarg = addMoreMonkeys(nextMonkeyNum, ml);
-    	}
-
-    	return nextMonkeyNum;
-    }
-
-    /**
-     * Run the simulation.
-     * @param ml List of Monkeys
-     * @param mw watcher of monkey
-     * @return int number of rounds taken to get to first monkey
+     * Monkey constructor.
      */
 
-    public static int runSimulation(List<Monkey> ml, MonkeyWatcher mw) {
-    	int nextMonkey = -1;
-
-    	while (!getFirstMonkey(ml).hasBanana()) {
-    	    mw.incrementRounds();
-    	    Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
-    	    int nextMonkeyNumber = nextMonkeyAndResize(monkeyOne, ml);
-    	    Monkey monkeyTwo = ml.get(nextMonkeyNumber);
-    	    Banana banana = monkeyOne.throwBananaFrom();
-    	    monkeyTwo.throwBananaTo(banana);
-    	    String stringifiedResults = stringifyResults(mw.getRounds(), monkeyOne, monkeyTwo);
-    	    System.out.println(stringifiedResults);
-    	}
-    	System.out.println("First monkey has the banana!");
-    	return mw.getRounds();
+    public Monkey() {
+    	thisMonkeyNum = monkeyNum;
+    	monkeyNum++;
+    	id = generateId(thisMonkeyNum);
     }
 
-    /**
-     * Get a reference to the second monkey in the list.
-     * @return Monkey second monkey in list
-     */
-    public static Monkey getSecondMonkey(List<Monkey> ml) {
-        Monkey secondMonkey = (ml.size() > 2) ? ml.get(2) : null;
-        return secondMonkey;
-    }
-
-    /**
-     * Checks whether a number is prime or not.
-     */
-    public static boolean isPrime(int number) {
-        if (number == 0 || number == 1 || number < 0) {
-            return false;
-        } else if (number == 2) {
-            return true;
-        }
-
-        for (int i = 2; i <= number / 2; i++) {
-            if (number % i == 0) { //No remainder upon division
-                return false; //The number is divisble by another number
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Return the monkey number of the next prime in the simulation
-     * in descending order.
-     */
-    public static int nextPrimeNumber(Monkey currentMonkey, List<Monkey> ml) {
-        int currentMonkeyNum = currentMonkey.getMonkeyNum();
-
-        for (int i = currentMonkeyNum - 1; i >= 2; i--) {
-            if (isPrime(i)) {
-                return i; //Return this monkey number
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Run the prime simulation, which occurs
-     * after the initial simulation.  The banana
-     * is only thrown to monkeys with a prime monkey number.
-     */
-    public static int runPrimeSimulation(List<Monkey> ml, MonkeyWatcher mw) {
-        if (ml.size() == 3) {
-            mw.incrementRounds();
-            Monkey secondMonk = getSecondMonkey(ml);
-            Monkey firstMonk = getFirstMonkey(ml);
-            Banana banana = secondMonk.throwBananaFrom();
-            firstMonk.throwBananaTo(banana);
-            String stringifiedResults = stringifyResults(mw.getRounds(), secondMonk, firstMonk);
-            System.out.println(stringifiedResults);
-        	System.out.println("First monkey has the banana!");
-
-        	return mw.getRounds();
-        }
-
-        while (!getSecondMonkey(ml).hasBanana()) {
-            mw.incrementRounds();
-            Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
-            int nextPrimeMonkeyNumber = nextPrimeNumber(monkeyOne, ml);
-            Monkey monkeyTwo = ml.get(nextPrimeMonkeyNumber);
-            Banana banana = monkeyOne.throwBananaFrom();
-    	    monkeyTwo.throwBananaTo(banana);
-    	    String stringifiedResults = stringifyResults(mw.getRounds(), monkeyOne, monkeyTwo);
-    	    System.out.println(stringifiedResults);
-    	}
-
-        mw.incrementRounds();
-        Monkey secondMonk = getSecondMonkey(ml);
-        Monkey firstMonk = getFirstMonkey(ml);
-        Banana banana = secondMonk.throwBananaFrom();
-        firstMonk.throwBananaTo(banana);
-        String stringifiedResults = stringifyResults(mw.getRounds(), secondMonk, firstMonk);
-        System.out.println(stringifiedResults);
-    	System.out.println("First monkey has the banana!");
-
-    	return mw.getRounds();
-    }
-
-    /**
-     * Entry point of program - run MonkeySim.
-     * Accepts one argument, the starting monkey
-     * number.
-     * @param args - Array of arguments from cmd line
-     */
-
-    public static void main(String[] args) {
-    	int startingMonkey = getStartingMonkeyNum(args);
-    	Monkey tmpMonkey;
-    	Banana banana = new Banana();
-    	MonkeyWatcher mw = new MonkeyWatcher();
-
-    	for (int j = 0; j < startingMonkey + 1; j++) {
-    	    tmpMonkey = new Monkey();
-    	    _monkeyList.add(tmpMonkey);
-    	}
-    	_monkeyList.get(startingMonkey).throwBananaTo(banana);
-
-    	int numRounds = runSimulation(_monkeyList, mw);
-    	System.out.println("Completed in " + numRounds + " rounds.");
-
-        //Run the prime simulation
-        System.out.println("\nStarting again...\n");
-        getFirstMonkey(_monkeyList).throwBananaFrom();
-        _monkeyList.get(startingMonkey).throwBananaTo(banana);
-        MonkeyWatcher primeMonkeyWatcher = new MonkeyWatcher();
-        int primeSimulationNumRounds = runPrimeSimulation(_monkeyList, primeMonkeyWatcher);
-        System.out.println("Completed in " + primeSimulationNumRounds + " rounds.");
-    }
 }
