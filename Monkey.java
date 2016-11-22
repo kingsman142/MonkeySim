@@ -1,7 +1,5 @@
 public class Monkey {
 
-    private int monkeyNum = 0;
-
     private int thisMonkeyNum = 0;
 
     private int id = -1;
@@ -14,7 +12,7 @@ public class Monkey {
      */
 
     public void setMonkeyNum(int newNum) {
-	       monkeyNum = newNum;
+	       thisMonkeyNum = newNum;
     }
 
     /**
@@ -101,8 +99,6 @@ public class Monkey {
      */
 
     public Monkey() {
-    	thisMonkeyNum = monkeyNum;
-    	monkeyNum++;
     	id = generateId(thisMonkeyNum);
     }
 

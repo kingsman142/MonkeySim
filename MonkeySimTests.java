@@ -11,7 +11,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-//import org.mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -137,12 +136,12 @@ public class MonkeySimTests {
 			Monkey monkTwo = new Monkey();
 			int round = 5;
 
-			String stringifiedResult = 
+			String stringifiedResult =
                                 MonkeySim.stringifyResults(round, monkOne, monkTwo);
-                        
+
                         //A NullPointerException should have been thrown by this point
                         //	in the test.
-                        fail(); 
+                        fail();
 		} catch (NullPointerException ex) {
 			//If the test reaches this line, that means it has passed
 			//	because a NullPointerException was successfully thrown.
@@ -208,15 +207,16 @@ public class MonkeySimTests {
 
 	//When a valid monkey with monkeyNum equals 1 is generated,
 	//	calling the generateId() should always generate Id value
-	//	equals 223595.
+	//	equals 223493.
 	//Pin test for generateId()
 	@Test
-	public void whenGeneratingIdForMonkeyNumberOneWillAlwaysReturnIdEqualTo223595() {
+	public void whenGeneratingIdForMonkeyNumberOneWillAlwaysReturnIdEqualTo223493() {
 		int currId;
 		try {
 			Monkey monkOne = new Monkey();
+			monkOne.setMonkeyNum(1);
 			currId = monkOne.generateId(monkOne.getMonkeyNum());
-			assertEquals(currId, 223695);
+			assertEquals(currId, 223493);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
@@ -291,7 +291,9 @@ public class MonkeySimTests {
 		try {
 			List<Monkey> ml = new LinkedList<Monkey>();
 			for (int i = 0; i < 100; i++) {
-				ml.add(new Monkey());
+				Monkey newMonkey = new Monkey();
+				newMonkey.setMonkeyNum(i);
+				ml.add(newMonkey);
 			}
 			(ml.get(75)).throwBananaTo(new Banana());
 			assertEquals(MonkeySim.monkeyWithBanana(ml), 75);
@@ -382,7 +384,7 @@ public class MonkeySimTests {
 
 	//When generating a LinkedList<Monkey> with five monkeys, then calling
 	//  getSecondMonkey() should return the second monkey in the LinkedList.
-	//  The Monkey returned by getSecondMonkey() is the same object as the 
+	//  The Monkey returned by getSecondMonkey() is the same object as the
 	//  object returned by calling the LinkedList's get(2) method.
 	//Pin test for getSecondMonkey()
 	@Test
