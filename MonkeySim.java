@@ -8,6 +8,8 @@ public class MonkeySim {
 
     public static final int HEADER = 50000;
 
+    private static int currMonkeyNum = 0;
+
     /**
      * Print out use message and exit with
      * error code 1.
@@ -250,6 +252,7 @@ public class MonkeySim {
 
     	for (int j = 0; j < startingMonkey + 1; j++) {
     	    tmpMonkey = new Monkey();
+            tmpMonkey.setMonkeyNum(currMonkeyNum++);
     	    _monkeyList.add(tmpMonkey);
     	}
     	_monkeyList.get(startingMonkey).throwBananaTo(banana);
