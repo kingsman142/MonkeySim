@@ -1,12 +1,21 @@
 public class Monkey {
 
-    private static int monkeyNum = 0;
+    private int monkeyNum = 0;
 
     private int thisMonkeyNum = 0;
 
     private int id = -1;
 
     private Banana bn = null;
+
+    /**
+     * Set this monkey's number.
+     * @param newNum - new value of monkeyNum
+     */
+
+    public void setMonkeyNum(int newNum) {
+	       monkeyNum = newNum;
+    }
 
     /**
      * Get this monkey's number.
