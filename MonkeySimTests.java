@@ -379,4 +379,58 @@ public class MonkeySimTests {
 		}
 	}
 
+
+	//When generating a LinkedList<Monkey> with five monkeys, then calling
+	//  getSecondMonkey() should return the second monkey in the LinkedList.
+	//  The Monkey returned by getSecondMonkey() is the same object as the 
+	//  object returned by calling the LinkedList's get(2) method.
+	//Pin test for getSecondMonkey()
+	@Test
+	public void callingGetSecondMonkeyWithFiveMonkeysReturnsSecondMonkey() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			for (int i = 0; i < 5; i++) {
+				ml.add(new Monkey());
+			}
+			assertEquals(MonkeySim.getSecondMonkey(ml), ml.get(2));
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+
+	//When generating a LinkedList<Monkey> with only one monkey, then calling
+	//  getSecondMonkey() should return the null.
+	//  The object returned by getSecondMonkey() is the supposed to be the second
+	//  Monkey, and since there is only one Monkey, the method would return null.
+	//Pin test for getSecondMonkey()
+	@Test
+	public void callingGetSecondMonkeyWithOneMonkeyReturnsNull() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			ml.add(new Monkey());
+			assertEquals(MonkeySim.getSecondMonkey(ml), null);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+
+	//When generating a LinkedList<Monkey> with no monkeys, then calling
+	//  getSecondMonkey() should return the null.
+	//  The object returned by getSecondMonkey() is the supposed to be the second
+	//  Monkey, and since there is no Monkeys, the method would return null.
+	//Pin test for getSecondMonkey()
+	@Test
+	public void callingGetSecondMonkeyWithNoMonkeysReturnsNull() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			assertEquals(MonkeySim.getSecondMonkey(ml), null);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
 }
