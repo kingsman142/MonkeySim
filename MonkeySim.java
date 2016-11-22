@@ -156,6 +156,10 @@ public class MonkeySim {
      * @return Monkey second monkey in list
      */
     public static Monkey getSecondMonkey(List<Monkey> ml) {
+        if (ml == null) {
+            return null;
+        }
+
         Monkey secondMonkey = (ml.size() > 2) ? ml.get(2) : null;
         return secondMonkey;
     }
@@ -183,7 +187,11 @@ public class MonkeySim {
      * Return the monkey number of the next prime in the simulation
      * in descending order.
      */
-    public static int nextPrimeNumber(Monkey currentMonkey, List<Monkey> ml) {
+    public static int nextPrimeNumber(Monkey currentMonkey) {
+        if (currentMonkey == null) {
+            return -1;
+        }
+
         int currentMonkeyNum = currentMonkey.getMonkeyNum();
 
         for (int i = currentMonkeyNum - 1; i >= 2; i--) {
@@ -201,6 +209,10 @@ public class MonkeySim {
      * is only thrown to monkeys with a prime monkey number.
      */
     public static int runPrimeSimulation(List<Monkey> ml, MonkeyWatcher mw) {
+        if (ml == null || mw == null || ml.size() <= 2) {
+            return 0;
+        }
+
         if (ml.size() == 3) {
             mw.incrementRounds();
             Monkey secondMonk = getSecondMonkey(ml);
@@ -217,7 +229,7 @@ public class MonkeySim {
         while (!getSecondMonkey(ml).hasBanana()) {
             mw.incrementRounds();
             Monkey monkeyOne = ml.get(monkeyWithBanana(ml));
-            int nextPrimeMonkeyNumber = nextPrimeNumber(monkeyOne, ml);
+            int nextPrimeMonkeyNumber = nextPrimeNumber(monkeyOne);
             Monkey monkeyTwo = ml.get(nextPrimeMonkeyNumber);
             Banana banana = monkeyOne.throwBananaFrom();
     	    monkeyTwo.throwBananaTo(banana);

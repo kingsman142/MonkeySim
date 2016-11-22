@@ -52,7 +52,6 @@ public class PrimeMonkeySimTests {
 		assertFalse(negativeFivePrimeValue);
 	}
 
-
 	//When generating a LinkedList<Monkey> with five monkeys, then calling
 	//  getSecondMonkey() should return the second monkey in the LinkedList.
 	//  The Monkey returned by getSecondMonkey() is the same object as the
@@ -72,7 +71,6 @@ public class PrimeMonkeySimTests {
 		}
 	}
 
-
 	//When generating a LinkedList<Monkey> with only one monkey, then calling
 	//  getSecondMonkey() should return the null.
 	//  The object returned by getSecondMonkey() is the supposed to be the second
@@ -82,14 +80,15 @@ public class PrimeMonkeySimTests {
 	public void callingGetSecondMonkeyWithOneMonkeyReturnsNull() {
 		try {
 			List<Monkey> ml = new LinkedList<Monkey>();
-			ml.add(new Monkey());
+			Monkey monkey = new Monkey();
+			monkey.setMonkeyNum(0);
+			ml.add(monkey);
 			assertEquals(MonkeySim.getSecondMonkey(ml), null);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
 	}
-
 
 	//When generating a LinkedList<Monkey> with no monkeys, then calling
 	//  getSecondMonkey() should return the null.
@@ -107,6 +106,39 @@ public class PrimeMonkeySimTests {
 		}
 	}
 
+	//When passing a null list of Monkeys to
+	//  getSecondMonkey() should return the null.
+	//  The object returned by getSecondMonkey() is the supposed to be the second
+	//  Monkey, and since there is no Monkeys, the method would return null.
+	//Unit test for getSecondMonkey()
+	@Test
+	public void callingGetSecondMonkeyWithNullListReturnsNull() {
+		try {
+			assertEquals(MonkeySim.getSecondMonkey(null), null);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When passing a normal list of Monkeys to
+	//  getSecondMonkey() should return the the 2nd monkey.
+	//Unit test for getSecondMonkey()
+	@Test
+	public void callingGetSecondMonkeyWithListOfTenMonkeysReturnsSecondMonkey() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			for (int i = 0; i < 10; i++) {
+				Monkey monkey = new Monkey();
+				monkey.setMonkeyNum(i);
+				ml.add(monkey);
+			}
+			assertEquals(MonkeySim.getSecondMonkey(ml), ml.get(2));
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
 
 	//When generating a LinkedList<Monkey> with only one monkey, then calling
 	//  nextPrimeNumber() should return the -1.
@@ -115,20 +147,18 @@ public class PrimeMonkeySimTests {
 	//  valid prime numbers, and -1 is returned
 	//Unit test for nextPrimeNumber()
 	@Test
-	public void callingNextPrimeNumberWithOneMonkeyReturnsNull() {
+	public void callingNextPrimeNumberWithOneMonkeyReturnsNegativeOne() {
 		try {
-			List<Monkey> ml = new LinkedList<Monkey>();
 			Monkey monkOne = new Monkey();
-			ml.add(monkOne);
-			assertEquals(MonkeySim.nextPrimeNumber(monkOne, ml), -1);
+			monkOne.setMonkeyNum(0);
+			assertEquals(MonkeySim.nextPrimeNumber(monkOne), -1);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
 	}
 
-
-	//When generating a LinkedList<Monkey> with Two monkeys, then calling
+	//When generating a monkey with a number of 1, then calling
 	//  nextPrimeNumber() should return the -1.
 	//  The value returned by nextPrimeNumber() is the supposed to be the next prime
 	//  number in descending order, and since the current value is 0, there is no further
@@ -137,18 +167,46 @@ public class PrimeMonkeySimTests {
 	@Test
 	public void callingNextPrimeNumberWithNoMonkeysReturnsNull() {
 		try {
-			List<Monkey> ml = new LinkedList<Monkey>();
-			Monkey monkOne = new Monkey();
 			Monkey monkTwo = new Monkey();
-			ml.add(monkOne);
-			ml.add(monkTwo);
-			assertEquals(MonkeySim.nextPrimeNumber(monkTwo, ml), -1);
+			monkTwo.setMonkeyNum(1);
+			assertEquals(MonkeySim.nextPrimeNumber(monkTwo), -1);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
 		}
 	}
 
+	//When generating a LinkedList<Monkey> with ten monkeys, then calling
+	//  nextPrimeNumber() should return the 7.
+	//Unit test for nextPrimeNumber()
+	@Test
+	public void callingNextPrimeNumberWithTenMonkeysReturnsSeven() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			for (int i = 0; i < 10; i++) {
+				Monkey monkey = new Monkey();
+				monkey.setMonkeyNum(i);
+				ml.add(monkey);
+			}
+			assertEquals(MonkeySim.nextPrimeNumber(ml.get(9)), 7);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When passing a null Monkey to nextPrimeNumber(),
+	//	it should return -1.
+	//Unit test for nextPrimeNumber()
+	@Test
+	public void callingNextPrimeNumberWithNullMonkeyReturnsNegativeOne() {
+		try {
+			assertEquals(MonkeySim.nextPrimeNumber(null), -1);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
 
 	//When generating a LinkedList<Monkey> with Three monkeys, then calling
 	//  runPrimeSimulation() should return 1.
@@ -168,7 +226,86 @@ public class PrimeMonkeySimTests {
 			ml.add(monkOne);
 			ml.add(monkTwo);
 			ml.add(monkThree);
+			monkThree.throwBananaTo(new Banana());
 			assertEquals(MonkeySim.runPrimeSimulation(ml, mw), 1);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When generating a LinkedList<Monkey> with zero monkeys, then calling
+	//  runPrimeSimulation() should return 0.
+	//Unit test for runPrimeSimulation()
+	@Test
+	public void callingRunPrimeSimulationWith0MonkeysReturns0() {
+		MonkeyWatcher mw;
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			mw = new MonkeyWatcher();
+			assertEquals(MonkeySim.runPrimeSimulation(ml, mw), 0);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When generating a LinkedList<Monkey> with 15 monkeys, then calling
+	//  runPrimeSimulation() should return 7.
+	//Unit test for runPrimeSimulation()
+	@Test
+	public void callingRunPrimeSimulationWith15MonkeysReturns7() {
+		MonkeyWatcher mw;
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			mw = new MonkeyWatcher();
+
+			for (int i = 0; i < 16; i++) {
+				Monkey monkey = new Monkey();
+				monkey.setMonkeyNum(i);
+				ml.add(monkey);
+
+				if (i == 15) {
+					monkey.throwBananaTo(new Banana());
+				}
+			}
+
+			assertEquals(MonkeySim.runPrimeSimulation(ml, mw), 7);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When passing a null monkey list to
+	//  runPrimeSimulation() should return 0.
+	//Unit test for runPrimeSimulation()
+	@Test
+	public void callingRunPrimeSimulationWithNullMonkeyListReturns0() {
+		MonkeyWatcher mw;
+		try {
+			mw = new MonkeyWatcher();
+
+			assertEquals(MonkeySim.runPrimeSimulation(null, mw), 0);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+	//When passing a null monkey watcher to
+	//  runPrimeSimulation() should return 0.
+	//Unit test for runPrimeSimulation()
+	@Test
+	public void callingRunPrimeSimulationWithNullMonkeyWatcherReturns0() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			for (int i = 0; i < 10; i++) {
+				Monkey monkey = new Monkey();
+				monkey.setMonkeyNum(i);
+				ml.add(monkey);
+			}
+			assertEquals(MonkeySim.runPrimeSimulation(ml, null), 0);
 		} catch (NullPointerException exc) {
 			//It's required that this is caught
 			fail();
