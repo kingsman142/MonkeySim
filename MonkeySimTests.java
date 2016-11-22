@@ -435,4 +435,46 @@ public class MonkeySimTests {
 			fail();
 		}
 	}
+
+
+	//When generating a LinkedList<Monkey> with only one monkey, then calling
+	//  nextPrimeNumber() should return the -1.
+	//  The value returned by nextPrimeNumber() is the supposed to be the next prime
+	//  number in descending order, and since the current value is 1, there is no further
+	//  valid prime numbers, and -1 is returned
+	//Pin test for nextPrimeNumber()
+	@Test
+	public void callingNextPrimeNumberWithOneMonkeyReturnsNull() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			Monkey monkOne = new Monkey();
+			ml.add(monkOne);
+			assertEquals(MonkeySim.nextPrimeNumber(monkOne, ml), -1);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+
+
+	//When generating a LinkedList<Monkey> with Two monkeys, then calling
+	//  nextPrimeNumber() should return the -1.
+	//  The value returned by nextPrimeNumber() is the supposed to be the next prime
+	//  number in descending order, and since the current value is 0, there is no further
+	//  valid prime numbers, and -1 is returned
+	//Pin test for nextPrimeNumber()
+	@Test
+	public void callingNextPrimeNumberWithNoMonkeysReturnsNull() {
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			ml.add(monkOne);
+			ml.add(monkTwo);
+			assertEquals(MonkeySim.nextPrimeNumber(monkTwo, ml), -1);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
 }
