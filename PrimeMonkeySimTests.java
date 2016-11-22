@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class PrimeMonkeySimTests {
@@ -56,7 +57,7 @@ public class PrimeMonkeySimTests {
 	//  getSecondMonkey() should return the second monkey in the LinkedList.
 	//  The Monkey returned by getSecondMonkey() is the same object as the
 	//  object returned by calling the LinkedList's get(2) method.
-	//Pin test for getSecondMonkey()
+	//Unit test for getSecondMonkey()
 	@Test
 	public void callingGetSecondMonkeyWithFiveMonkeysReturnsSecondMonkey() {
 		try {
@@ -76,7 +77,7 @@ public class PrimeMonkeySimTests {
 	//  getSecondMonkey() should return the null.
 	//  The object returned by getSecondMonkey() is the supposed to be the second
 	//  Monkey, and since there is only one Monkey, the method would return null.
-	//Pin test for getSecondMonkey()
+	//Unit test for getSecondMonkey()
 	@Test
 	public void callingGetSecondMonkeyWithOneMonkeyReturnsNull() {
 		try {
@@ -94,7 +95,7 @@ public class PrimeMonkeySimTests {
 	//  getSecondMonkey() should return the null.
 	//  The object returned by getSecondMonkey() is the supposed to be the second
 	//  Monkey, and since there is no Monkeys, the method would return null.
-	//Pin test for getSecondMonkey()
+	//Unit test for getSecondMonkey()
 	@Test
 	public void callingGetSecondMonkeyWithNoMonkeysReturnsNull() {
 		try {
@@ -112,7 +113,7 @@ public class PrimeMonkeySimTests {
 	//  The value returned by nextPrimeNumber() is the supposed to be the next prime
 	//  number in descending order, and since the current value is 1, there is no further
 	//  valid prime numbers, and -1 is returned
-	//Pin test for nextPrimeNumber()
+	//Unit test for nextPrimeNumber()
 	@Test
 	public void callingNextPrimeNumberWithOneMonkeyReturnsNull() {
 		try {
@@ -132,7 +133,7 @@ public class PrimeMonkeySimTests {
 	//  The value returned by nextPrimeNumber() is the supposed to be the next prime
 	//  number in descending order, and since the current value is 0, there is no further
 	//  valid prime numbers, and -1 is returned
-	//Pin test for nextPrimeNumber()
+	//Unit test for nextPrimeNumber()
 	@Test
 	public void callingNextPrimeNumberWithNoMonkeysReturnsNull() {
 		try {
@@ -147,3 +148,30 @@ public class PrimeMonkeySimTests {
 			fail();
 		}
 	}
+
+
+	//When generating a LinkedList<Monkey> with Three monkeys, then calling
+	//  runPrimeSimulation() should return 1.
+	//  The value returned by runPrimeSimulation() is the next Monkey to recieve
+	//  the banana. If the current Money holding the banana is Monkey 2,
+	//  then, Monkey 1 will get the banana.
+	//Unit test for runPrimeSimulation()
+	@Test
+	public void callingRunPrimeSimulationWith3MonkeysReturns1() {
+		MonkeyWatcher mw;
+		try {
+			List<Monkey> ml = new LinkedList<Monkey>();
+			mw = new MonkeyWatcher();
+			Monkey monkOne = new Monkey();
+			Monkey monkTwo = new Monkey();
+			Monkey monkThree = new Monkey();
+			ml.add(monkOne);
+			ml.add(monkTwo);
+			ml.add(monkThree);
+			assertEquals(MonkeySim.runPrimeSimulation(ml, mw), 1);
+		} catch (NullPointerException exc) {
+			//It's required that this is caught
+			fail();
+		}
+	}
+}
