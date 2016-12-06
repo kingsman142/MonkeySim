@@ -108,7 +108,9 @@ public class MonkeySim {
      */
     public static int addMoreMonkeys(int numberToAdd, List<Monkey> ml) {
     	while (ml.size() <= numberToAdd) {
-    	    ml.add(new Monkey());
+            Monkey newMonkey = new Monkey();
+            newMonkey.setMonkeyNum(ml.size());
+    	    ml.add(newMonkey);
     	}
     	return ml.size();
     }
